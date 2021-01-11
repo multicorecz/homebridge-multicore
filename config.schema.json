@@ -1,0 +1,156 @@
+{
+  "pluginAlias": "MulticoreHomebridgePlugin",
+  "pluginType": "platform",
+  "singular": true,
+  "headerDisplay": "Homebridge plugin for MULTICORE devices (mainly MIO441R device)",
+  "footerDisplay": "FOOTER text",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "api":{
+        "type": "object",
+        "title": "Global setting",
+        "properties": {
+          "removeAtStartup": {
+            "title": "Remove all devices at startup.",
+            "type": "boolean",
+            "default": false
+          },
+          "disableSSDP": {
+            "title": "Disable automatic search devices.",
+            "type": "boolean",
+            "default": false
+          },
+          "automaticAddBySearch": {
+            "title": "Automatic ADD all founded devices by search function.",
+            "type": "boolean",
+            "default": false,
+            "condition": {
+              "functionBody": "return model.api.disableSSDP === false;"
+            }
+          },
+          "debug": {
+            "title": "Set debug level",
+            "type": "number",
+            "default": 0,
+            "oneOf": [
+              { "title": "Basic debug", "enum": [1] },
+              { "title": "Advanced debug", "enum": [2] }
+            ]
+          },
+          "swInputsDis": {
+            "title": "Disable 'SWITCH' inputs",
+            "type": "boolean",
+            "default": false
+          },
+          "pirInputsDis": {
+            "title": "Disable 'MOTION DETECTORS' inputs",
+            "type": "boolean",
+            "default": false
+          },
+          "pirEmitInputsDis": {
+            "title": "Disable SWITCH when input type is 'MOTION DETECTOR'",
+            "type": "boolean",
+            "default": false
+          },
+          "outputDis": {
+            "title": "Disable 'LightBulb' outputs",
+            "type": "boolean",
+            "default": false
+          },
+          "outRgbDis": {
+            "title": "Disable 'RGB LightBulb' outputs",
+            "type": "boolean",
+            "default": false
+          },
+          "outsWhenRgbDis": {
+            "title": "Disable normal outputs when 'RGB' enabled",
+            "type": "boolean",
+            "default": true,
+            "condition": {
+              "functionBody": "return model.api.outRgbDis === false;"
+            }
+          }
+        }
+      },
+      "mqtt":{
+        "type": "object",
+        "title": "MQTT setting",
+        "properties": {
+          "enable": {
+            "title": "Enable MQTT service",
+            "type": "boolean",
+            "default": false
+          },
+          "url": {
+            "title": "URL Address",
+            "type": "string",
+            "required": true,
+            "default": "127.0.0.1",
+            "placeholder": "IP (127.0.0.1) or Address (mqtt.local)",
+            "condition": {
+              "functionBody": "return model.mqtt.enable === true;"
+            }
+          },
+          "port": {
+            "title": "Port",
+            "type": "number",
+            "required": true,
+            "default": 1883,
+            "condition": {
+              "functionBody": "return model.mqtt.enable === true;"
+            }
+          },
+          "username": {
+            "title": "Username",
+            "type": "string",
+            "placeholder": "Username of MQTT broker if used",
+            "condition": {
+              "functionBody": "return model.mqtt.enable === true;"
+            }
+          },
+          "password": {
+            "title": "Password",
+            "type": "string",
+            "placeholder": "Password of MQTT broker if used",
+            "condition": {
+              "functionBody": "return model.mqtt.enable === true;"
+            }
+          },
+          "config_device": {
+            "title": "Auto configure mqtt service in device",
+            "type": "boolean",
+            "default": false,
+            "condition": {
+              "functionBody": "return model.mqtt.enable === true;"
+            }
+          }
+        }
+      },
+      "deviceList":{
+        "type": "array",
+        "default": [],
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "title": "Name",
+              "type": "string",
+              "required": true,
+              "placeholder": "MIO441R device name"
+            },
+            "ipAddress":{
+              "title": "IP Address",
+              "type": "string",
+              "format": "ipv4",
+              "required": true,
+              "condition": {
+                "functionBody": "return model.deviceList[arrayIndices].connection.mode === 0;"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
