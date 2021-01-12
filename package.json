@@ -1,7 +1,7 @@
 {
   "displayName": "Homebridge MULTICORE",
   "name": "homebridge-multicore",
-  "version": "1.0.1-beta",
+  "version": "1.0.3-beta",
   "description": "Plugin to HomeBridge for support of MULTICORE devices.",
   "license": "Apache-2.0",
   "repository": {
